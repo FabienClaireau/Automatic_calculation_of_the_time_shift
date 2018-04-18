@@ -1,11 +1,15 @@
+# Cleans everything
 rm(list = ls())
-setwd("") # répertoire de travail où sont rangées les tables
 
+# Working directory
+setwd("")
+
+# Opening the table containing the results of the script Pairing microphones
 library(data.table)
 library(Hmisc)
+TrajTot=read.csv2("TrajTot.csv")
 
-TrajTot=read.csv2("TrajTot.csv") # fichier produit en première étape d'appariement des micros
-ListPaires=read.csv2("ListPairs.csv") # à remplir préalablement
+ListPaires=read.csv2("ListPairs.csv")
 
 maxdecalage=300
 decalageFinal=vector()
