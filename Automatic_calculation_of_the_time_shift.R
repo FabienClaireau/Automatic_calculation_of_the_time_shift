@@ -15,13 +15,13 @@ maxdecalage=300
 decalageFinal=vector()
 
 for (h in 1:nrow(ListPaires)){
-  TrajTot1=subset(TrajTot, Participation %in% ListPaires$participation_1[h])
+  TrajTot1=subset(TrajTot, participation %in% ListPaires$participation_1[h])
   if(nrow(TrajTot1)==0)
   {
     decalageTemp=NA
   }else{
     TrajTot1=cbind(TrajTot1,Cote=1, Point=ListPaires$point_1[h])
-    TrajTot2=subset(TrajTot, Participation %in% ListPaires$participation_2[h])
+    TrajTot2=subset(TrajTot, participation %in% ListPaires$participation_2[h])
     if(nrow(TrajTot2)==0)
     {
       decalageTemp=NA
@@ -30,13 +30,13 @@ for (h in 1:nrow(ListPaires)){
       Trav=rbind(TrajTot1,TrajTot2)
       Trav$DecDeb=as.numeric(as.character(Trav$DecDeb))
       Trav$DecFin=as.numeric(as.character(Trav$DecFin))
-      Trav$Prob=as.numeric(as.character(Trav$Prob))
+      Trav$Prob=as.numeric(as.character(Trav$probabilite))
       Date=vector(length=nrow(Trav))
       Heure=vector(length=nrow(Trav))
       Minute=vector(length=nrow(Trav))
       Seconde=vector(length=nrow(Trav))
       MiliSec=vector(length=nrow(Trav))
-      Fich=as.character(Trav$File)
+      Fich=as.character(Trav$File0)
       for (i in 1:length(Fich)){
         Date[i]=substr(Fich[i],nchar(Fich[i])-18,nchar(Fich[i])-11)
         Heure[i]=substr(Fich[i],nchar(Fich[i])-9,nchar(Fich[i])-8)
@@ -71,8 +71,8 @@ for (h in 1:nrow(ListPaires)){
           NbMatchTemp=0
           if((((nrow(Ent1)>0)&(nrow(Sort2)>0))))
           {
-            TC12=find.matches(as.matrix(cbind(Ent1$Datenum,Ent1$Species,EntTemp))
-                              ,as.matrix(cbind(Sort2$Datenum,Sort2$Species,Sort2$Temps))
+            TC12=find.matches(as.matrix(cbind(Ent1$Datenum,Ent1$espece,EntTemp))
+                              ,as.matrix(cbind(Sort2$Datenum,Sort2$espece,Sort2$Temps))
                               ,tol=c(0,0,(ListPaires$inter_distance[h]/5+(ListPaires$inter_distance[h]/5*0.5)+5))
                               ,maxmatch=1)
             
@@ -80,8 +80,8 @@ for (h in 1:nrow(ListPaires)){
           }
           if((((nrow(Ent2)>0)&(nrow(Sort1)>0))))
           {
-            TC21=find.matches(cbind(Ent2$Datenum,Ent2$Species,Ent2$Temps)
-                              ,cbind(Sort1$Datenum,Sort1$Species,SortTemp)
+            TC21=find.matches(cbind(Ent2$Datenum,Ent2$espece,Ent2$Temps)
+                              ,cbind(Sort1$Datenum,Sort1$espece,SortTemp)
                               ,tol=c(0,0,(ListPaires$inter_distance[h]/5+(ListPaires$inter_distance[h]/5*0.5)+5))
                               ,maxmatch=1)
             NbMatchTemp=NbMatchTemp+length(subset(TC21$matches,TC21$matches>0))
@@ -101,4 +101,3 @@ for (h in 1:nrow(ListPaires)){
 
 ListDecalage=cbind(ListPaires,decalageFinal)
 write.csv2(ListDecalage,"ListPairs_Dec.csv")
-
