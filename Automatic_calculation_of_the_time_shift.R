@@ -31,6 +31,8 @@ for (h in 1:nrow(ListPaires)){
       Trav$DecDeb=as.numeric(as.character(Trav$DecDeb))
       Trav$DecFin=as.numeric(as.character(Trav$DecFin))
       Trav$Prob=as.numeric(as.character(Trav$probabilite))
+      Trav$espece2=Trav$espece
+      Trav$espece=as.numeric(as.factor(Trav$espece))
       Date=vector(length=nrow(Trav))
       Heure=vector(length=nrow(Trav))
       Minute=vector(length=nrow(Trav))
@@ -51,7 +53,6 @@ for (h in 1:nrow(ListPaires)){
       MiliSec=as.numeric(MiliSec)
       Temps=Heure*3600+Minute*60+Seconde+MiliSec/1000
       Trav=cbind(Trav,Heure,Minute,Seconde,MiliSec,Temps,Date,Datenum)
-      Trav$espece=as.numeric(as.factor(Trav$espece))
       Ent1=subset(Trav, DecDeb>0 & DecFin<0 & Cote==1)
       Sort1=subset(Trav, DecDeb<0 & DecFin>0 & Cote==1)
       Ent2=subset(Trav, DecDeb>0 & DecFin<0 & Cote==2)
